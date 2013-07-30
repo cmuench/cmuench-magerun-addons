@@ -1,0 +1,8 @@
+autoloaders:
+  CMuench: %module%/src
+
+commands:
+  customCommands:
+    - CMuench\DeleteTempFolderCommand
+    - CMuench\Magerun\CreateModuleCommand
+    - CMuench\Magerun\CreateCommandCommand
