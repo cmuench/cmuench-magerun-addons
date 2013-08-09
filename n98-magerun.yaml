@@ -6,3 +6,18 @@ commands:
     - CMuench\DeleteTempFolderCommand
     - CMuench\Magerun\CreateModuleCommand
     - CMuench\Magerun\CreateCommandCommand
+    - CMuench\Order\DeleteCommand
+
+  CMuench\Order\DeleteCommand:
+    table-groups:
+      - id: sales
+        description: Sales data (orders, invoices, creditmemos etc)
+        tables: sales_order_aggregated* sales_order_tax* sales_flat* sales_recurring_* sales_refunded_* sales_payment_* enterprise_sales_* enterprise_customer_sales_*
+
+      - id: customers
+        description: Customer data - Should not be used without @sales
+        tables: customer_address* customer_entity*
+
+      - id: trade
+        description: Current trade data (customers and orders). You usally do not want those in developer systems.
+        tables: @customers @sales
