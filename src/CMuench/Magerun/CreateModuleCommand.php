@@ -50,9 +50,9 @@ class CreateModuleCommand extends AbstractMagentoCommand
         $output->writeln('<info>Created directory: <comment>' .  $moduleBaseFolder . '/src</comment></info>');
         $commandFileTwig = file_get_contents(__DIR__ . '/res/ExampleCommand.twig');
         $commandFileContent = $this->getHelper('twig')->renderString($commandFileTwig, $twigVars);
-        mkdir($moduleBaseFolder . '/src/' . $namespace);
-        $output->writeln('<info>Created directory: <comment>' . $moduleBaseFolder . '/src/' . $namespace . '</comment></info>');
-        file_put_contents($moduleBaseFolder . '/src/' . $namespace . '/ExampleCommand.php', $commandFileContent);
-        $output->writeln('<info>Created file: <comment>' . $moduleBaseFolder . '/src/' . $namespace . '/ExampleCommand.php' . '</comment></info>');
+        mkdir($moduleBaseFolder . '/src/' . str_replace('\\', '/', $namespace), 0777, true);
+        $output->writeln('<info>Created directory: <comment>' . $moduleBaseFolder . '/src/' . str_replace('\\', '/', $namespace) . '</comment></info>');
+        file_put_contents($moduleBaseFolder . '/src/' . str_replace('\\', '/', $namespace) . '/ExampleCommand.php', $commandFileContent);
+        $output->writeln('<info>Created file: <comment>' . $moduleBaseFolder . '/src/' . str_replace('\\', '/', $namespace) . '/ExampleCommand.php' . '</comment></info>');
     }
 }
