@@ -6,6 +6,7 @@ commands:
     - CMuench\DeleteTempFolderCommand
     - CMuench\Magerun\CreateModuleCommand
     - CMuench\Magerun\CreateCommandCommand
+    - CMuench\Magerun\Config\DumpCommand
     - CMuench\Order\DeleteCommand
 
   CMuench\Order\DeleteCommand:
