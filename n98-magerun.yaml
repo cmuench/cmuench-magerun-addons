@@ -7,10 +7,30 @@ commands:
     - CMuench\Magerun\CreateModuleCommand
     - CMuench\Magerun\CreateCommandCommand
     - CMuench\Magerun\Config\DumpCommand
-    - CMuench\Order\DeleteCommand
+    - CMuench\Privacy\DataDeleteCommand
 
-  CMuench\Order\DeleteCommand:
+  CMuench\Privacy\DataDeleteCommand:
     table-groups:
+      - id: all
+        description: Deletes all privay data
+        tables: @trade @product @rating @poll @newsletter
+
+      - id: product
+        description: Wishlist data
+        tables: wishlist*
+
+      - id: newsletter
+        description: Newsletter
+        tables: newsletter*
+
+      - id: rating
+        description: Rating data
+        tables: rating*
+
+      - id: poll
+        description: Polls
+        tables: poll*
+    
       - id: sales
         description: Sales data (orders, invoices, creditmemos etc)
         tables: sales_order_aggregated* sales_order_tax* sales_flat* sales_recurring_* sales_refunded_* sales_payment_* enterprise_sales_* enterprise_customer_sales_*

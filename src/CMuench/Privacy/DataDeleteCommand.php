@@ -1,21 +1,22 @@
 <?php
 
-namespace CMuench\Order;
+namespace CMuench\Privacy;
 
 use N98\Magento\Command\AbstractMagentoCommand;
-use N98\Magento\Command\Database\DumpCommand;
 use N98\Util\OperatingSystem;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteCommand extends DumpCommand
+class DataDeleteCommand extends AbstractMagentoCommand
 {
     protected function configure()
     {
         $this
-            ->setName('order:delete')
-            ->setDescription('Deletes all order data')
+            ->setName('privacy:data-delete')
+            ->setDescription('Deletes all defined data')
+            ->addArgument('strip', InputArgument::OPTIONAL, 'Tables to strip', '@all')
         ;
     }
 
@@ -24,7 +25,7 @@ class DeleteCommand extends DumpCommand
      */
     public function isEnabled()
     {
-        return version_compare($this->getApplication()->getVersion(), '1.74.1', '>=');
+        return version_compare($this->getApplication()->getVersion(), '1.85.0', '>=');
     }
 
     /**
@@ -34,11 +35,12 @@ class DeleteCommand extends DumpCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->detectDbSettings($output);
+        $dbHelper = $this->getHelper('database');
+        $dbHelper->detectDbSettings($output);
+        $config = $this->getCommandConfig();
+        $tables = $dbHelper->resolveTables(explode(' ', $input->getArgument('strip')), $dbHelper->getTableDefinitions($config));
 
-        $tables = $this->resolveTables(array('@sales'), $this->getTableDefinitions());
-
-        $connection = $this->_getConnection();
+        $connection = $dbHelper->getConnection();
         /* @var $connection \PDO */
         $connection->query('SET FOREIGN_KEY_CHECKS=0;');
 
