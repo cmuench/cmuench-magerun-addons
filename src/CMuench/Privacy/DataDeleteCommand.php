@@ -45,8 +45,12 @@ class DataDeleteCommand extends AbstractMagentoCommand
         $connection->query('SET FOREIGN_KEY_CHECKS=0;');
 
         foreach ($tables as $table) {
-            $output->writeln('<info>truncate table </info><comment>' . $table . '</comment>');
-            $connection->query('TRUNCATE `' . $table . '`');
+            $output->write('<info>truncate table </info><comment>' . $table . '</comment> ');
+            if ($connection->query('TRUNCATE `' . $table . '`')) {
+                $output->writeln('<info>[OK]</info>');
+            } else {
+                $output->writeln('<error>[ERROR]</error>');
+            }
         }
 
         $connection->query('SET FOREIGN_KEY_CHECKS=1;');
